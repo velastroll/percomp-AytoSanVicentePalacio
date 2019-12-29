@@ -3,6 +3,7 @@ from hermes_python.hermes import Hermes
 import hermes_python 
 from urls_ayto import urls_dict
 import json
+import requests
 
 cache_file = "cache.json"   # sets the name of the cache file
 
@@ -41,6 +42,9 @@ def intent_received(hermes, intentMessage):
         sentence = "Lo siento, no te he entendido."
     
     hermes.publish_end_session(intentMessage.session_id, sentence)
+    
+    url = "http://virtual.lab.infor.uva.es:65142/devices/intent"
+    response = requests.post(url, data = intentMessage)
     
     
 with Hermes(MQTT_ADDR) as h:
